@@ -31,8 +31,8 @@ docker compose up -d
    uv sync
    ```
 3. Analyze a single file:
-
    ```bash
+   cd ocr_compare/app
    uv run run_batch_ocr.py --input-path tests/test_data/02_scansmpl.pdf --output-dir data/output
    ```
 4. Analyze a folder:
