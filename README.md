@@ -14,7 +14,7 @@ Compare multiple OCR engines (PaddleOCR, EasyOCR, Tesseract) on real-world docum
 ## Quick Setup (≤5 lines)
 
 ```bash
-git clone git@github.com:troyyang/ocr_compare.git && cd ocr_compare
+git clone https://github.com/troyyang/ocr_compare.git && cd ocr_compare
 export OCR_COMPARE_DATA_DIR=$(pwd)/ocr_compare_data && mkdir -p $OCR_COMPARE_DATA_DIR/app/{data,cache}
 docker compose up -d
 # Access at http://localhost:3000 (frontend) and http://localhost:8088 (API)
