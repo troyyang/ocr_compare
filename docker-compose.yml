@@ -1,0 +1,72 @@
+
+services:
+  postgres:
+    image: postgres:17.2-alpine
+    container_name: ocr-compare-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-ocr_compare}
+      POSTGRES_USER: ${POSTGRES_USER:-ocr_compare}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-ocr_compare}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - ./postgres/init-scripts:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-ocr_compare}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - ocr_compare_network
+
+  app:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    image: ocr-compare/app:latest
+    container_name: ocr-compare-server
+    networks:
+      - ocr_compare_network
+    ports:
+      - "${API_PORT:-8088}:8088"
+    volumes:
+      - ./.env:/app/.env
+      - ./app/start.sh:/app/start.sh
+      - ./app/entrypoint.sh:/app/entrypoint.sh
+      - $OCR_COMPARE_DATA_DIR/app/data:/app/data
+    restart: always
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8088"]
+      interval: 600s
+      timeout: 5s
+      retries: 10
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        API_BASE_URL: ${FRONTEND_API_BASE_URL:-http://localhost:8088}
+    image: ocr-compare/frontend:latest
+    container_name: ocr-compare-frontend
+    networks:
+      - ocr_compare_network
+    ports:
+      - "${FRONTEND_PORT:-3000}:3000"
+    restart: always
+    depends_on:
+      - app
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3010"]
+      interval: 600s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+      
+networks:
+  ocr_compare_network:
+    driver: bridge

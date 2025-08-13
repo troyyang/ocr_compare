@@ -1,0 +1,18 @@
+export default {
+  'document.search': '搜索',
+  'document.search.placeholder': '按文件名搜索',
+  'document.operation.create': '创建',
+  'document.operation.view': '查看',
+  'document.operation.delete': '删除',
+  'document.operation.parse': '解析',
+  'document.operation.download.result': '下载结果',
+  'document.status': '状态',
+  'document.status.placeholder': '选择状态',
+  'document.status.pending': '待处理',
+  'document.status.processing': '处理中',
+  'document.status.completed': '已完成',
+  'document.status.failed': '失败',
+  'document.createdTime': '创建时间',
+  'document.ocrResults': 'OCR结果',
+  'document.recommendation': '推荐',
+};
