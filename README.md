@@ -2,6 +2,10 @@
 
 Compare multiple OCR engines (PaddleOCR, EasyOCR, Tesseract) on real-world documents and recommend the best one based on accuracy, speed, and cost.
 
+## Demo Video
+
+Watch the demo here: [https://youtu.be/2ZKJKkXlQWU](https://youtu.be/2ZKJKkXlQWU)
+
 ## Features
 
 - **Multi-Engine OCR**: Support for PaddleOCR, EasyOCR, and Tesseract
